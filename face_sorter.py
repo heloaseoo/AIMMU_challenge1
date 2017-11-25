@@ -5,6 +5,12 @@ import re
 import os
 import shutil
 
+# Create the BDD structure
+os.mkdir("./data")
+os.mkdir("./data/train_dir")
+os.mkdir("./data/val_dir")
+os.mkdir("./data/test_dir")
+
 # Run through the structured .txt files
 for file_nbr in range(0,4):
   filename='openu/fold_frontal_'+str(file_nbr)+'_data.txt'
@@ -25,9 +31,15 @@ for file_nbr in range(0,4):
         age = re.sub(r'[\(\)\s]', '', age)
         age = re.sub(',', '_', age)
         src = "openu/faces/"+user_id+"/coarse_tilt_aligned_face."+face_id+"."+original_image
-        dir = "./openu/"+gender_name[gender]+"_"+age
+        train_dir = "./data/train_dir/"+gender_name[gender]+"_"+age
+        val_dir = "./data/val_dir/"+gender_name[gender]+"_"+age
+        test_dir = "./data/test_dir/"+gender_name[gender]+"_"+age
         # if doesn't exist, create the corresponding directory
-        if not os.path.isdir(dir):
-           os.mkdir(dir)
+        if not os.path.isdir(train_dir):
+           os.mkdir(train_dir)
+        if not os.path.isdir(val_dir):
+           os.mkdir(val_dir)
+        if not os.path.isdir(test_dir):
+           os.mkdir(test_dir)
         # copy the file to the corresponding directory
-        shutil.copy(src, dir)
+        shutil.copy(src, train_dir)
