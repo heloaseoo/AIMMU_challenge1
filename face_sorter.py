@@ -2,6 +2,8 @@
 
 import csv
 import re
+import os
+import shutil
 
 FILENAME = 'openu/fold_frontal_0_data.txt'
 
@@ -17,5 +19,8 @@ with open(FILENAME, 'r') as csvfile:
       gender_name = {'m': 'male', 'f': 'female'}
       age = re.sub(r'[\(\)\s]', '', age)
       age = re.sub(',', '_', age)
-      print 'mkdir openu/%s_%s/' % (gender_name[gender], age)
-      print 'cp openu/faces/%s/coarse_tilt_aligned_face.%s.%s openu/%s_%s/' % (user_id, face_id, original_image, gender_name[gender], age)
+      src = "openu/faces/"+user_id+"/coarse_tilt_aligned_face."+face_id+"."+original_image
+      dir = "./openu/"+gender_name[gender]+"_"+age
+      if not os.path.isdir(dir):
+         os.mkdir(dir)
+      shutil.copy(src, dir)
